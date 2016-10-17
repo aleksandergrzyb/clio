@@ -21,6 +21,7 @@
 		7A91863B1DB56F80003130DF /* NotesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A91863A1DB56F80003130DF /* NotesTableViewController.swift */; };
 		7A91863D1DB56FD3003130DF /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A91863C1DB56FD3003130DF /* Note.swift */; };
 		7A91863F1DB570D0003130DF /* NotesEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A91863E1DB570D0003130DF /* NotesEndpoint.swift */; };
+		7A9186411DB5749C003130DF /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9186401DB5749C003130DF /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		7A91863A1DB56F80003130DF /* NotesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesTableViewController.swift; sourceTree = "<group>"; };
 		7A91863C1DB56FD3003130DF /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		7A91863E1DB570D0003130DF /* NotesEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesEndpoint.swift; sourceTree = "<group>"; };
+		7A9186401DB5749C003130DF /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 			children = (
 				7A9186201DB537BE003130DF /* Info.plist */,
 				7A9186211DB537BE003130DF /* AppDelegate.swift */,
+				7A9186401DB5749C003130DF /* Constants.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -297,6 +300,7 @@
 				7A9186261DB5393E003130DF /* MattersTableViewController.swift in Sources */,
 				7A91863D1DB56FD3003130DF /* Note.swift in Sources */,
 				7A9186231DB537BE003130DF /* AppDelegate.swift in Sources */,
+				7A9186411DB5749C003130DF /* Constants.swift in Sources */,
 				7A91862F1DB55157003130DF /* MattersEndpoint.swift in Sources */,
 				7A9186291DB53B44003130DF /* APIClient.swift in Sources */,
 				7A91863F1DB570D0003130DF /* NotesEndpoint.swift in Sources */,
