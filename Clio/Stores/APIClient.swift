@@ -82,6 +82,9 @@ struct Resource<A> {
     /// Resource endpoint path.
     let path: String
 
+    /// Resource params.
+    let params: [String: String]
+
     /// Method used for performing request.
     let method: HttpMethod<Data>
 
@@ -98,8 +101,12 @@ extension Resource {
     /// - parameter parseJSON: Parse function that will transform data received from endpoint.
     ///
     /// - returns: Resource with initialized configuration.
-    init(path: String, method: HttpMethod<AnyObject> = .get, parseJSON: @escaping (Any) -> Result<A>) {
+    init(path: String,
+         method: HttpMethod<AnyObject> = .get,
+         params: [String: String] = [:],
+         parseJSON: @escaping (Any) -> Result<A>) {
         self.path = path
+        self.params = params
         self.method = method.transformBody { json in
             try! JSONSerialization.data(withJSONObject: json, options: [])
         }
@@ -121,8 +128,9 @@ extension URLRequest {
     ///
     /// - returns: Initialized request.
     init<A>(baseURL: String, headers: [String : String], resource: Resource<A>) {
-        let url = URL(string: baseURL + resource.path)!
-        self.init(url: url)
+        var urlComponents = URLComponents(string: baseURL + resource.path)!
+        urlComponents.queryItems = resource.params.map { return URLQueryItem(name: $0, value: $1) }
+        self.init(url: urlComponents.url!)
         httpMethod = resource.method.method
         for (key, value) in headers {
             setValue(value, forHTTPHeaderField: key)
