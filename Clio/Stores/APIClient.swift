@@ -127,10 +127,13 @@ extension URLRequest {
     /// - parameter resource:  Resource used for creating `URLRequest`.
     ///
     /// - returns: Initialized request.
-    init<A>(baseURL: String, resource: Resource<A>) {
+    init<A>(baseURL: String, headers: [String : String], resource: Resource<A>) {
         let url = URL(string: baseURL + resource.path)!
         self.init(url: url)
         httpMethod = resource.method.method
+        for (key, value) in headers {
+            setValue(value, forHTTPHeaderField: key)
+        }
         switch resource.method {
         case .post(let body), .put(let body):
             httpBody = body
@@ -167,6 +170,10 @@ final class APIClient {
             }
             if let error = error {
                 completion(.failure(error))
+        let headers = [ "Authorization" : "Bearer Xzd7LAtiZZ6HBBjx0DVRqalqN8yjvXgzY5qaD15a",
+                        "Content-Type" : "application/json",
+                        "Accept" : "application/json" ]
+        let request = URLRequest(baseURL: baseURL, headers: headers, resource: resource)
             }
             completion(.failure(APIClientError.unknownFailureReason))
         }.resume()
