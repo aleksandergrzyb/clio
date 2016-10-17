@@ -14,7 +14,7 @@ class MattersTableViewController: UITableViewController {
         case error(Error)
     }
 
-    private var state: State = .loading {
+    fileprivate var state: State = .loading {
         didSet {
             switch state {
             case .loaded(_), .empty, .error(_):
@@ -45,25 +45,40 @@ class MattersTableViewController: UITableViewController {
             }
         }
     }
-
-    // MARK: - Navigation
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    }
 }
 
 extension MattersTableViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        switch state {
+        case .loaded(let matters):
+            return matters.count
+        case .empty, .error(_):
+            return 1
+        case .loading:
+            return 0
+        }
     }
 
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        return cell
+        switch state {
+        case .loaded(let matters):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MatterInformationCell", for: indexPath)
+            cell.textLabel?.text = matters[indexPath.row].name
+            cell.detailTextLabel?.text = matters[indexPath.row].description
+            return cell
+        case .empty:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InformationCell",
+                                                     for: indexPath) as! InformationTableViewCell
+            cell.configureWith(kind: .information("You have no matters right now."))
+            return cell
+        case .error(let error):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "InformationCell",
+                                                     for: indexPath) as! InformationTableViewCell
+            cell.configureWith(kind: .error(error.localizedDescription))
+            return cell
+        case .loading:
+            return UITableViewCell()
+        }
     }
 }
