@@ -98,6 +98,12 @@ extension Resource {
     }
 }
 
+/// Objects wanted to provide internet connection for this client should conform to this protocol and then 
+/// dependency inject to `APIClient` class.
+protocol NetworkProvider {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask
+}
+
 extension URLRequest {
     /// Convenience initializer that creates `URLRequest` with resource.
     ///
@@ -115,7 +121,16 @@ extension URLRequest {
     }
 }
 
+extension URLSession: NetworkProvider {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
+        return dataTask(with: request, completionHandler: completionHandler)
+    }
+}
+
 final class APIClient {
+
+    /// Object providing connection with internet.
+    var networkProvider: NetworkProvider = URLSession.shared
 
     /// Calls `completion` after loading given resource.
     ///
@@ -123,7 +138,7 @@ final class APIClient {
     /// - parameter completion: Called upon loading resource completion.
     func load<A>(resource: Resource<A>, completion: @escaping (Result<A>) -> ()) {
         let request = URLRequest(resource: resource)
-        URLSession.shared.dataTask(with: request) { data, _, error in
+        networkProvider.dataTask(with: request) { data, _, error in
             if let data = data {
                 completion(resource.parse(data))
             }
