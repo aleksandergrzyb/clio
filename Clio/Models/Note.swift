@@ -9,18 +9,19 @@ struct Note {
     let uid: Int
     let subject: String
     let detail: String
-    let date: String
+    var date: String?
 }
 
 extension Note {
     init?(dictionary: JSONDictionary) {
         guard let uid = dictionary["id"] as? Int,
             let subject = dictionary["subject"] as? String,
-            let detail = dictionary["detail"] as? String,
-            let date = dictionary["date"] as? String else { return nil }
+            let detail = dictionary["detail"] as? String else { return nil }
         self.uid = uid
         self.subject = subject
         self.detail = detail
-        self.date = date
+        if let date = dictionary["date"] as? String {
+            self.date = date
+        }
     }
 }
