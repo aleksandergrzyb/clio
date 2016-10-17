@@ -48,6 +48,18 @@ class MattersTableViewController: UITableViewController {
             }
         }
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == SegueIdentifier.showNotes,
+            let notesTableViewController = segue.destination as? NotesTableViewController,
+            let selectedIndexPath = tableView.indexPathForSelectedRow {
+                switch state {
+                case .loaded(let matters):
+                    notesTableViewController.selectedMatter = matters[selectedIndexPath.row]
+                default: break
+                }
+        }
+    }
 }
 
 extension MattersTableViewController {
