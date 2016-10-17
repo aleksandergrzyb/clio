@@ -6,7 +6,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Matters Table View Controller-->
+        <!--Matters-->
         <scene sceneID="4Id-Su-VRW">
             <objects>
                 <tableViewController id="mFx-P2-e2a" customClass="MattersTableViewController" customModule="Clio" customModuleProvider="target" sceneMemberID="viewController">
@@ -38,6 +38,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="tv9-Vv-5Uz" kind="show" id="1in-9R-DJt"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -45,11 +48,39 @@
                             <outlet property="delegate" destination="mFx-P2-e2a" id="ALc-Ws-zUE"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="4qd-xt-kz5"/>
+                    <navigationItem key="navigationItem" title="Matters" id="4qd-xt-kz5"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgt-Oa-aLc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="836" y="121.88905547226388"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="e5T-Qd-QHM">
+            <objects>
+                <tableViewController id="tv9-Vv-5Uz" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="vYP-5B-097">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="HyY-Er-z5S">
+                                <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HyY-Er-z5S" id="QHs-nQ-pfK">
+                                    <frame key="frameInset" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="tv9-Vv-5Uz" id="f4W-kU-Lxd"/>
+                            <outlet property="delegate" destination="tv9-Vv-5Uz" id="w9y-Ix-BvW"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vGc-tK-LcS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1636" y="122"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="44b-5E-zlA">
