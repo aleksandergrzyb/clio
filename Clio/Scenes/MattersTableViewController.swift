@@ -66,17 +66,18 @@ extension MattersTableViewController {
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch state {
         case .loaded(let matters):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "MatterInformationCell", for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.matterCell,
+                                                     for: indexPath)
             cell.textLabel?.text = matters[indexPath.row].name
             cell.detailTextLabel?.text = matters[indexPath.row].description
             return cell
         case .empty:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "InformationCell",
+            let cell = tableView.dequeueReusableCell(withIdentifier: InformationTableViewCell.cellReuseIdentifier,
                                                      for: indexPath) as! InformationTableViewCell
             cell.configureWith(kind: .information("You have no matters right now."))
             return cell
         case .error(let error):
-            let cell = tableView.dequeueReusableCell(withIdentifier: "InformationCell",
+            let cell = tableView.dequeueReusableCell(withIdentifier: InformationTableViewCell.cellReuseIdentifier,
                                                      for: indexPath) as! InformationTableViewCell
             cell.configureWith(kind: .error(error.localizedDescription))
             return cell
