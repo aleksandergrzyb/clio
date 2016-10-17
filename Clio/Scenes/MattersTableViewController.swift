@@ -7,8 +7,43 @@ import UIKit
 
 class MattersTableViewController: UITableViewController {
 
+    enum State {
+        case loading
+        case loaded([Matter])
+        case empty
+        case error(Error)
+    }
+
+    private var state: State = .loading {
+        didSet {
+            switch state {
+            case .loaded(_), .empty, .error(_):
+                tableView.reloadData()
+            default:
+                break
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadMatters()
+    }
+
+    private func loadMatters() {
+        state = .loading
+        APIClient().load(resource: Matter.all) { result in
+            switch result {
+            case .success(let matters):
+                if matters.count == 0 {
+                    self.state = .empty
+                    return
+                }
+                self.state = .loaded(matters)
+            case .failure(let error):
+                self.state = .error(error)
+            }
+        }
     }
 
     // MARK: - Navigation
