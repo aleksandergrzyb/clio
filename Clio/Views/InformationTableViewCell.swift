@@ -8,7 +8,7 @@ import UIKit
 class InformationTableViewCell: UITableViewCell {
 
     @IBOutlet weak var informationLabel: UILabel!
-    
+
     enum Kind {
         case error(String)
         case information(String)
