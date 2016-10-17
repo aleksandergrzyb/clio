@@ -68,8 +68,8 @@ extension HttpMethod {
 /// Encapsulate all information used to perform request for specified resource.
 struct Resource<A> {
 
-    /// Resource endpoint URL.
-    let url: URL
+    /// Resource endpoint path.
+    let path: String
 
     /// Method used for performing request.
     let method: HttpMethod<Data>
@@ -82,13 +82,13 @@ extension Resource {
 
     /// Creates resource with given configuration.
     ///
-    /// - parameter url:       URL for resource endpoint.
+    /// - parameter path:       Resource endpoint path.
     /// - parameter method:    Method used for performing request (defaults to GET method).
     /// - parameter parseJSON: Parse function that will transform data received from endpoint.
     ///
     /// - returns: Resource with initialized configuration.
-    init(url: URL, method: HttpMethod<AnyObject> = .get, parseJSON: @escaping (Any) -> Result<A>) {
-        self.url = url
+    init(path: String, method: HttpMethod<AnyObject> = .get, parseJSON: @escaping (Any) -> Result<A>) {
+        self.path = path
         self.method = method.transformBody { json in
             try! JSONSerialization.data(withJSONObject: json, options: [])
         }
@@ -116,8 +116,9 @@ extension URLRequest {
     /// - parameter resource:  Resource used for creating `URLRequest`.
     ///
     /// - returns: Initialized request.
-    init<A>(resource: Resource<A>) {
-        self.init(url: resource.url)
+    init<A>(baseURL: String, resource: Resource<A>) {
+        let url = URL(string: baseURL + resource.path)!
+        self.init(url: url)
         httpMethod = resource.method.method
         switch resource.method {
         case .post(let body), .put(let body):
@@ -141,12 +142,14 @@ final class APIClient {
     /// Object providing connection with internet.
     var networkProvider: NetworkProvider = URLSession.shared
 
+    let baseURL = "https://app.goclio.com/api/v2/"
+
     /// Calls `completion` after loading given resource.
     ///
     /// - parameter resource:   Resource to be loaded from API.
     /// - parameter completion: Called upon loading resource completion.
     func load<A>(resource: Resource<A>, completion: @escaping (Result<A>) -> ()) {
-        let request = URLRequest(resource: resource)
+        let request = URLRequest(baseURL: baseURL, resource: resource)
         networkProvider.dataTask(with: request) { data, _, error in
             if let data = data {
                 completion(resource.parse(data))
