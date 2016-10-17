@@ -21,7 +21,6 @@ extension MatterResourceError {
     }
 }
 
-
 extension Matter {
 
     /// Creates a resource for all matters.
