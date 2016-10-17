@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7A9185ED1DB534F5003130DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9185EC1DB534F5003130DF /* AppDelegate.swift */; };
-		7A9185F21DB534F5003130DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A9185F01DB534F5003130DF /* Main.storyboard */; };
-		7A9185F41DB534F5003130DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9185F31DB534F5003130DF /* Assets.xcassets */; };
-		7A9185F71DB534F5003130DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A9185F51DB534F5003130DF /* LaunchScreen.storyboard */; };
 		7A9186021DB534F5003130DF /* ClioTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9186011DB534F5003130DF /* ClioTests.swift */; };
+		7A91861B1DB5376A003130DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A9186171DB5376A003130DF /* Main.storyboard */; };
+		7A91861C1DB5376A003130DF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A9186191DB5376A003130DF /* LaunchScreen.storyboard */; };
+		7A91861E1DB5377F003130DF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A91861D1DB5377F003130DF /* Assets.xcassets */; };
+		7A9186231DB537BE003130DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9186211DB537BE003130DF /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,14 +26,14 @@
 
 /* Begin PBXFileReference section */
 		7A9185E91DB534F5003130DF /* Clio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clio.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A9185EC1DB534F5003130DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		7A9185F11DB534F5003130DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		7A9185F31DB534F5003130DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7A9185F61DB534F5003130DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7A9185F81DB534F5003130DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7A9185FD1DB534F5003130DF /* ClioTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClioTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9186011DB534F5003130DF /* ClioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClioTests.swift; sourceTree = "<group>"; };
 		7A9186031DB534F5003130DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7A9186181DB5376A003130DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7A91861A1DB5376A003130DF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7A91861D1DB5377F003130DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7A9186201DB537BE003130DF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7A9186211DB537BE003130DF /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,11 +75,8 @@
 		7A9185EB1DB534F5003130DF /* Clio */ = {
 			isa = PBXGroup;
 			children = (
-				7A9185EC1DB534F5003130DF /* AppDelegate.swift */,
-				7A9185F01DB534F5003130DF /* Main.storyboard */,
-				7A9185F31DB534F5003130DF /* Assets.xcassets */,
-				7A9185F51DB534F5003130DF /* LaunchScreen.storyboard */,
-				7A9185F81DB534F5003130DF /* Info.plist */,
+				7A91861F1DB53794003130DF /* Supporting Files */,
+				7A9186161DB53758003130DF /* Resources */,
 			);
 			path = Clio;
 			sourceTree = "<group>";
@@ -91,6 +88,25 @@
 				7A9186031DB534F5003130DF /* Info.plist */,
 			);
 			path = ClioTests;
+			sourceTree = "<group>";
+		};
+		7A9186161DB53758003130DF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7A91861D1DB5377F003130DF /* Assets.xcassets */,
+				7A9186171DB5376A003130DF /* Main.storyboard */,
+				7A9186191DB5376A003130DF /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7A91861F1DB53794003130DF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7A9186201DB537BE003130DF /* Info.plist */,
+				7A9186211DB537BE003130DF /* AppDelegate.swift */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +160,7 @@
 					7A9185E81DB534F5003130DF = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 99UV99PF48;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
 					7A9185FC1DB534F5003130DF = {
@@ -178,9 +195,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A9185F71DB534F5003130DF /* LaunchScreen.storyboard in Resources */,
-				7A9185F41DB534F5003130DF /* Assets.xcassets in Resources */,
-				7A9185F21DB534F5003130DF /* Main.storyboard in Resources */,
+				7A91861C1DB5376A003130DF /* LaunchScreen.storyboard in Resources */,
+				7A91861E1DB5377F003130DF /* Assets.xcassets in Resources */,
+				7A91861B1DB5376A003130DF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,7 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A9185ED1DB534F5003130DF /* AppDelegate.swift in Sources */,
+				7A9186231DB537BE003130DF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,18 +238,18 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7A9185F01DB534F5003130DF /* Main.storyboard */ = {
+		7A9186171DB5376A003130DF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7A9185F11DB534F5003130DF /* Base */,
+				7A9186181DB5376A003130DF /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		7A9185F51DB534F5003130DF /* LaunchScreen.storyboard */ = {
+		7A9186191DB5376A003130DF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				7A9185F61DB534F5003130DF /* Base */,
+				7A91861A1DB5376A003130DF /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -335,11 +352,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 99UV99PF48;
-				INFOPLIST_FILE = Clio/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Clio/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aleksandergrzyb.Clio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -348,8 +367,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 99UV99PF48;
-				INFOPLIST_FILE = Clio/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Clio/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.aleksandergrzyb.Clio;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -406,6 +426,7 @@
 				7A9186081DB534F5003130DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7A9186091DB534F5003130DF /* Build configuration list for PBXNativeTarget "ClioTests" */ = {
 			isa = XCConfigurationList;
@@ -414,6 +435,7 @@
 				7A91860B1DB534F5003130DF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
