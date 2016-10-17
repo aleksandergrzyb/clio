@@ -28,6 +28,17 @@ enum APIClientError: Error {
     case unknownFailureReason
 }
 
+extension APIClientError {
+    var localizedDescription: String {
+        switch self {
+        case .jsonParsingFailed(let error):
+            return "Server data could not be parsed because of error: \(error.localizedDescription)"
+        case .unknownFailureReason:
+            return "Unknown error occured. Please try again later."
+        }
+    }
+}
+
 /// Used to represent whether a request was successful or encountered an error.
 ///
 /// - success: Success case with associated value.

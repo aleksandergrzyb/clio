@@ -12,6 +12,16 @@ enum MatterResourceError: Error {
     case mappingFailed
 }
 
+extension MatterResourceError {
+    var localizedDescription: String {
+        switch self {
+        case .mappingFailed:
+            return "Data for matters is in unexpected format. Please try again later."
+        }
+    }
+}
+
+
 extension Matter {
 
     /// Creates a resource for all matters.
