@@ -21,8 +21,8 @@ enum HttpMethod<Body> {
 /// Represents possible errors that could occur when using `APIClient` class.
 ///
 /// - jsonParsingFailed:    JSON parsing failed.
-/// - unknownFailureReason: Unknown failure reason. Occurs when `completionHandler` of `URLSession` will pass `nil`
-/// `data` and `nil` `error`.
+/// - unknownFailureReason: Unknown failure reason. Occurs when `completionHandler`
+/// of `URLSession` will pass `nil` `data` and `nil` `error`.
 enum APIClientError: Error {
     case jsonParsingFailed(error: Error)
     case unknownFailureReason
@@ -50,16 +50,17 @@ extension HttpMethod {
 
     /// Transforms `Body` of `.post` and `.put` methods using `f` function.
     ///
-    /// - parameter f: Function that transforms body from one type to another (for `URLRequest` from dictionary to `Data`).
+    /// - parameter f: Function that transforms body from one type to another
+    /// (for `URLRequest` from dictionary to `Data`).
     ///
     /// - returns: Returns transformed `HttpMethod`.
-    func transformBody<B>(f: (Body) -> B) -> HttpMethod<B> {
+    func transformBody<B>(transform: (Body) -> B) -> HttpMethod<B> {
         switch self {
         case .get: return .get
         case .post(let body):
-            return .post(f(body))
+            return .post(transform(body))
         case .put(let body):
-            return .put(f(body))
+            return .put(transform(body))
         }
     }
 }
@@ -95,18 +96,18 @@ extension Resource {
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
                 return parseJSON(json)
-            }
-            catch {
+            } catch {
                 return .failure(APIClientError.jsonParsingFailed(error: error))
             }
         }
     }
 }
 
-/// Objects wanted to provide internet connection for this client should conform to this protocol and then 
-/// dependency inject to `APIClient` class.
+/// Objects wanted to provide internet connection for this client should conform
+/// to this protocol and then ependency inject to `APIClient` class.
 protocol NetworkProvider {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask
+    func dataTask(with request: URLRequest,
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask
 }
 
 extension URLRequest {
@@ -128,7 +129,8 @@ extension URLRequest {
 
 /// Default network provider for `APIClient` class.
 extension URLSession: NetworkProvider {
-    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
+    func dataTask(with request: URLRequest,
+                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
         return dataTask(with: request, completionHandler: completionHandler)
     }
 }
