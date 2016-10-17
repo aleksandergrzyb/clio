@@ -28,6 +28,9 @@ class MattersTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadMatters()
+
+        tableView.register(UINib(nibName: InformationTableViewCell.nibName, bundle: nil),
+                           forCellReuseIdentifier: InformationTableViewCell.cellReuseIdentifier)
     }
 
     private func loadMatters() {

@@ -9,9 +9,17 @@ class InformationTableViewCell: UITableViewCell {
 
     @IBOutlet weak var informationLabel: UILabel!
 
+    static let nibName = "InformationTableViewCell"
+    static let cellReuseIdentifier = "InformationTableViewCell"
+
     enum Kind {
         case error(String)
         case information(String)
+    }
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        selectionStyle = .none
     }
 
     func configureWith(kind: Kind) {
