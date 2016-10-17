@@ -114,13 +114,6 @@ extension Resource {
     }
 }
 
-/// Objects wanted to provide internet connection for this client should conform
-/// to this protocol and then ependency inject to `APIClient` class.
-protocol NetworkProvider {
-    func dataTask(with request: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask
-}
-
 extension URLRequest {
     /// Convenience initializer that creates `URLRequest` with resource.
     ///
@@ -142,19 +135,8 @@ extension URLRequest {
     }
 }
 
-/// Default network provider for `APIClient` class.
-extension URLSession: NetworkProvider {
-    func dataTask(with request: URLRequest,
-                  completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
-        return dataTask(with: request, completionHandler: completionHandler)
-    }
-}
-
 /// Use this class for loading data to/from API.
 final class APIClient {
-
-    /// Object providing connection with internet.
-    var networkProvider: NetworkProvider = URLSession.shared
 
     let baseURL = "https://app.goclio.com/api/v2/"
 
