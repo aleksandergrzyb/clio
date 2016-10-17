@@ -18,6 +18,11 @@ enum HttpMethod<Body> {
     case put(Body)
 }
 
+/// Represents possible errors that could occur when using `APIClient` class.
+///
+/// - jsonParsingFailed:    JSON parsing failed.
+/// - unknownFailureReason: Unknown failure reason. Occurs when `completionHandler` of `URLSession` will pass `nil`
+/// `data` and `nil` `error`.
 enum APIClientError: Error {
     case jsonParsingFailed(error: Error)
     case unknownFailureReason
@@ -121,12 +126,14 @@ extension URLRequest {
     }
 }
 
+/// Default network provider for `APIClient` class.
 extension URLSession: NetworkProvider {
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> ()) -> URLSessionDataTask {
         return dataTask(with: request, completionHandler: completionHandler)
     }
 }
 
+/// Use this class for loading data to/from API.
 final class APIClient {
 
     /// Object providing connection with internet.
