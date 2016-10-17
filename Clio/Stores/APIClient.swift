@@ -161,21 +161,24 @@ final class APIClient {
     /// Calls `completion` after loading given resource.
     ///
     /// - parameter resource:   Resource to be loaded from API.
-    /// - parameter completion: Called upon loading resource completion.
+    /// - parameter completion: Called upon loading resource completion (called on main queue).
     func load<A>(resource: Resource<A>, completion: @escaping (Result<A>) -> ()) {
-        let request = URLRequest(baseURL: baseURL, resource: resource)
-        networkProvider.dataTask(with: request) { data, _, error in
-            if let data = data {
-                completion(resource.parse(data))
-            }
-            if let error = error {
-                completion(.failure(error))
         let headers = [ "Authorization" : "Bearer Xzd7LAtiZZ6HBBjx0DVRqalqN8yjvXgzY5qaD15a",
                         "Content-Type" : "application/json",
                         "Accept" : "application/json" ]
         let request = URLRequest(baseURL: baseURL, headers: headers, resource: resource)
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            DispatchQueue.main.async {
+                if let data = data {
+                    completion(resource.parse(data))
+                    return
+                }
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                completion(.failure(APIClientError.unknownFailureReason))
             }
-            completion(.failure(APIClientError.unknownFailureReason))
         }.resume()
     }
 }
