@@ -7,6 +7,7 @@ import Foundation
 
 struct SegueIdentifier {
     static let showNotes = "ShowNotes"
+    static let showModallyNotesForm = "ShowModalllyNotesForm"
 }
 
 struct CellIdentifier {

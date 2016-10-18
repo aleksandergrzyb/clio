@@ -99,7 +99,7 @@
                     <navigationItem key="navigationItem" title="Notes" id="gff-Ad-3V2">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="PEL-QY-7N9">
                             <connections>
-                                <segue destination="RAb-9L-xbe" kind="presentation" id="17b-oQ-1nc"/>
+                                <segue destination="RAb-9L-xbe" kind="presentation" identifier="ShowModalllyNotesForm" id="17b-oQ-1nc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

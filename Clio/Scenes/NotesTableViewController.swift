@@ -54,8 +54,15 @@ class NotesTableViewController: UITableViewController {
         }
     }
 
-    @IBAction func unwindFromNoteForm(for segue: UIStoryboardSegue) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == SegueIdentifier.showModallyNotesForm,
+            let notesFormNC = segue.destination as? UINavigationController,
+            let notesFormTableViewController = notesFormNC.topViewController as? NotesFormTableViewController {
+            notesFormTableViewController.cancelBarButtonItemShouldBePresent = true
+        }
+    }
 
+    @IBAction func unwindFromNoteForm(for segue: UIStoryboardSegue) {
     }
 }
 
