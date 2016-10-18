@@ -11,6 +11,7 @@ class NotesFormTableViewController: UITableViewController {
 
     @IBOutlet weak var subjectTextView: UITextView!
     @IBOutlet weak var detailTextView: UITextView!
+    @IBOutlet weak var dateLabel: UILabel!
 
     var matter: Matter?
     var note: Note?
@@ -33,6 +34,7 @@ class NotesFormTableViewController: UITableViewController {
             if let note = note {
                 navigationItem.leftBarButtonItem = nil
                 setUpTextViews(with: note)
+                setUpDateLabel(with: note)
             } else {
                 setUpPlaceholdersForTextViews()
             }
@@ -126,6 +128,22 @@ class NotesFormTableViewController: UITableViewController {
     private func setUpTextViews(with note: Note) {
         subjectTextView.text = note.subject
         detailTextView.text = note.detail
+    }
+
+    private func setUpDateLabel(with note: Note) {
+        guard let dateString = note.date else {
+            dateLabel.text = "No date specified for note.."
+            return
+        }
+
+        let toDateFormat = "yyyy-MM-dd"
+        let toStringFormat = "MMM d, yyyy"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = toDateFormat
+        if let date = dateFormatter.date(from: dateString) {
+            dateFormatter.dateFormat = toStringFormat
+            dateLabel.text = dateFormatter.string(from: date)
+        }
     }
 
     private func detailText() -> String {
