@@ -55,14 +55,29 @@ class NotesTableViewController: UITableViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == SegueIdentifier.showModallyNotesForm,
-            let notesFormNC = segue.destination as? UINavigationController,
-            let notesFormTableViewController = notesFormNC.topViewController as? NotesFormTableViewController {
-            notesFormTableViewController.mode = .new
+        if let notesFormNC = segue.destination as? UINavigationController,
+            let notesFormTableViewController = notesFormNC.topViewController as? NotesFormTableViewController,
+            segue.identifier == SegueIdentifier.showNotesFormForCreation {
+                notesFormTableViewController.state = .editing(nil)
+                notesFormTableViewController.matter = selectedMatter
+        }
+
+        if let notesFormTableViewController = segue.destination as? NotesFormTableViewController,
+            segue.identifier == SegueIdentifier.showNotesFormForEdition,
+            let selectedIndexPath = tableView.indexPathForSelectedRow {
+                switch state {
+                case .loaded(let notes):
+                    notesFormTableViewController.state = .editing(notes[selectedIndexPath.row])
+                default: break
+                }
+                notesFormTableViewController.matter = selectedMatter
         }
     }
 
     @IBAction func unwindFromNoteForm(for segue: UIStoryboardSegue) {
+        if segue.identifier == SegueIdentifier.unwindAfterNoteCreation {
+            loadNotes()
+        }
     }
 }
 

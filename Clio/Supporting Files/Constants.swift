@@ -7,7 +7,9 @@ import Foundation
 
 struct SegueIdentifier {
     static let showNotes = "ShowNotes"
-    static let showModallyNotesForm = "ShowModalllyNotesForm"
+    static let showNotesFormForCreation = "ShowNotesFormForCreation"
+    static let showNotesFormForEdition = "ShowNotesFormForEdition"
+    static let unwindAfterNoteCreation = "UnwindAfterNoteCreation"
 }
 
 struct CellIdentifier {

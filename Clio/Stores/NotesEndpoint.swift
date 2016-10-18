@@ -27,9 +27,9 @@ extension Note {
     }
 
     /// Creates note with given data for matter ID.
-    static func createNote(subject: String = "Default subject",
-                           detail: String = "Default detail",
-                           date: String = "2000-01-01",
+    static func createNote(subject: String,
+                           detail: String,
+                           date: String,
                            matterId: Int) -> Resource<Note> {
         let regarding = [ "type" : "Matter", "id": "\(matterId)" ]
         let note: JSONDictionary = [ "subject": subject, "detail": detail, "regarding": regarding ]
@@ -43,4 +43,10 @@ extension Note {
             return .success(note)
         }
     }
+}
+
+extension Note {
+    static let defaultSubject = "Default subject"
+    static let defaultDetail = "Default detail"
+    static let defaultDate = "2000-01-01"
 }

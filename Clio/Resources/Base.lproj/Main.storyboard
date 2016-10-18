@@ -87,7 +87,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="sUf-ti-CWB" kind="show" id="O3X-27-bjw"/>
+                                    <segue destination="sUf-ti-CWB" kind="show" identifier="ShowNotesFormForEdition" id="O3X-27-bjw"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -99,7 +99,7 @@
                     <navigationItem key="navigationItem" title="Notes" id="gff-Ad-3V2">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="PEL-QY-7N9">
                             <connections>
-                                <segue destination="RAb-9L-xbe" kind="presentation" identifier="ShowModalllyNotesForm" id="17b-oQ-1nc"/>
+                                <segue destination="RAb-9L-xbe" kind="presentation" identifier="ShowNotesFormForCreation" id="17b-oQ-1nc"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -201,7 +201,7 @@
                     <navigationItem key="navigationItem" id="HK2-Ne-8a0">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="3dM-A0-O3r">
                             <connections>
-                                <segue destination="nrB-dp-FzL" kind="unwind" unwindAction="unwindFromNoteFormFor:" id="eEU-ov-Y00"/>
+                                <segue destination="nrB-dp-FzL" kind="unwind" identifier="UnwindAfterNoteCreation" unwindAction="unwindFromNoteFormFor:" id="eEU-ov-Y00"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="wtT-zg-8ht">

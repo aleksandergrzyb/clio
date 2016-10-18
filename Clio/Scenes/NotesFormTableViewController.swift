@@ -10,20 +10,16 @@ class NotesFormTableViewController: UITableViewController {
     @IBOutlet weak var subjectTextView: UITextView!
     @IBOutlet weak var detailTextView: UITextView!
 
-    enum Mode {
-        case edit
-        case new
-    }
-    var mode: Mode = .edit
+    var matter: Matter?
 
     enum State {
-        case editing
+        case editing(Note?)
         case loading
-        case loaded([Matter])
+        case loaded(Note)
         case error(Error)
     }
 
-    fileprivate var state: State = .editing {
+    var state: State = .editing(nil) {
         didSet {
             switch state {
             case .loading:
@@ -38,29 +34,50 @@ class NotesFormTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        switch mode {
-        case .new:
-            setUpPlaceholdersForTextViews()
-        case .edit:
-            navigationItem.leftBarButtonItem = nil
+        switch state {
+        case .editing(let note):
+            if let _ = note {
+                navigationItem.leftBarButtonItem = nil
+            } else {
+                setUpPlaceholdersForTextViews()
+            }
+        default: break
         }
     }
 
     // MARK: Actions
 
     @IBAction func saveNote(_ sender: UIBarButtonItem) {
-        state = .loading
-        switch mode {
-        case .new:
-            createNote()
-        case .edit: break
+        switch state {
+        case .editing(let note):
+            if note == nil {
+                createNote()
+            }
+        default: break
         }
     }
 
     // MARK: Private methods
 
     fileprivate func createNote() {
+        state = .loading
+        guard let matter = matter else {
+            state = .editing(nil)
+            return
+        }
 
+        APIClient().load(resource: Note.createNote(subject: subjectText(),
+                                                   detail: detailText(),
+                                                   date: dateText(),
+                                                   matterId: matter.uid)) { result in
+            switch result {
+            case .success(let note):
+                self.state = .loaded(note)
+                self.performSegue(withIdentifier: SegueIdentifier.unwindAfterNoteCreation, sender: self)
+            case .failure(let error):
+                self.state = .error(error)
+            }
+        }
     }
 
     fileprivate func setUpPlaceholdersForTextViews() {
@@ -70,6 +87,24 @@ class NotesFormTableViewController: UITableViewController {
         detailTextView.text = Placeholder.detail
         detailTextView.textColor = UIColor.lightGray
         detailTextView.delegate = self
+    }
+
+    fileprivate func detailText() -> String {
+        if detailTextView.text == Placeholder.detail || detailTextView.text.isEmpty {
+            return Note.defaultDetail
+        }
+        return detailTextView.text
+    }
+
+    fileprivate func subjectText() -> String {
+        if subjectTextView.text == Placeholder.subject || subjectTextView.text.isEmpty {
+            return Note.defaultSubject
+        }
+        return subjectTextView.text
+    }
+
+    fileprivate func dateText() -> String {
+        return Note.defaultDate
     }
 }
 
