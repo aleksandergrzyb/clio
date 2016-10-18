@@ -192,14 +192,10 @@ class NotesFormTableViewController: UITableViewController {
 
 extension NotesFormTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
-        switch state {
-        case .editing:
-            if let _ = note {
-                return 3
-            }
-        default: break
+        guard let _ = note else {
+            return 2
         }
-        return 2
+        return 3
     }
 }
 
