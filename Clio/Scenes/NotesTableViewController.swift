@@ -58,7 +58,7 @@ class NotesTableViewController: UITableViewController {
         if segue.identifier == SegueIdentifier.showModallyNotesForm,
             let notesFormNC = segue.destination as? UINavigationController,
             let notesFormTableViewController = notesFormNC.topViewController as? NotesFormTableViewController {
-            notesFormTableViewController.cancelBarButtonItemShouldBePresent = true
+            notesFormTableViewController.mode = .new
         }
     }
 

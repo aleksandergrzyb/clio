@@ -204,8 +204,16 @@
                                 <segue destination="nrB-dp-FzL" kind="unwind" unwindAction="unwindFromNoteFormFor:" id="eEU-ov-Y00"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="wtT-zg-8ht"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="wtT-zg-8ht">
+                            <connections>
+                                <action selector="saveNote:" destination="sUf-ti-CWB" id="chP-xo-n0Z"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="detailTextView" destination="S7L-dt-dyJ" id="noY-3z-tsQ"/>
+                        <outlet property="subjectTextView" destination="MlZ-DD-A1e" id="jLc-ty-dA2"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s8S-Al-Iz7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

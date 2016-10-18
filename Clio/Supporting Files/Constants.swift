@@ -14,3 +14,8 @@ struct CellIdentifier {
     static let matterCell = "MatterCell"
     static let noteCell = "NoteCell"
 }
+
+struct Placeholder {
+    static let subject = "Tap here to write matter's subject..."
+    static let detail = "Tap here to write matter's detail..."
+}
