@@ -12,7 +12,7 @@ class NotesTableViewController: UITableViewController {
     var matter: Matter?
 
     enum State {
-        case loading
+        case loading(Bool)
         case loaded([Note])
         case empty
         case error(Error)
@@ -21,7 +21,7 @@ class NotesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         cofigureTableView()
-        loadNotes()
+        loadNotes(fromRefreshControl: false)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -47,15 +47,29 @@ class NotesTableViewController: UITableViewController {
 
     @IBAction func unwindFromNoteForm(for segue: UIStoryboardSegue) {
         if segue.identifier == SegueIdentifier.unwindAfterNoteCreation {
-            loadNotes()
+            loadNotes(fromRefreshControl: false)
+        }
+    }
+
+    @IBAction func refreshPulled(_ sender: UIRefreshControl) {
+        switch state {
+        case .loading(_):
+            return
+        default:
+            loadNotes(fromRefreshControl: true)
         }
     }
 
     // MARK: Private methods/properties
 
-    fileprivate var state: State = .loading {
+    fileprivate var state: State = .loading(false) {
         didSet {
             tableView.reloadData()
+            switch state {
+            case .error(_), .loaded(_):
+                refreshControl?.endRefreshing()
+            default: break
+            }
         }
     }
 
@@ -67,11 +81,11 @@ class NotesTableViewController: UITableViewController {
                            forCellReuseIdentifier: RefreshTableViewCell.cellReuseIdentifier)
     }
 
-    private func loadNotes() {
+    private func loadNotes(fromRefreshControl: Bool) {
         guard let matter = matter else {
             return
         }
-        state = .loading
+        state = .loading(fromRefreshControl)
         APIClient().load(resource: Note.all(matterId: matter.uid)) { result in
             switch result {
             case .success(let notes):
@@ -92,8 +106,10 @@ extension NotesTableViewController {
         switch state {
         case .loaded(let notes):
             return notes.count
-        case .empty, .error(_), .loading:
+        case .empty, .error(_):
             return 1
+        case .loading(let fromRefreshControl):
+            return fromRefreshControl ? 0 : 1
         }
     }
 
@@ -115,7 +131,10 @@ extension NotesTableViewController {
                                                      for: indexPath) as! InformationTableViewCell
             cell.configureWith(kind: .error(error.localizedDescription))
             return cell
-        case .loading:
+        case .loading(let fromRefreshControl):
+            if fromRefreshControl {
+                return UITableViewCell()
+            }
             let cell = tableView.dequeueReusableCell(withIdentifier: RefreshTableViewCell.cellReuseIdentifier,
                                                      for: indexPath) as! RefreshTableViewCell
             cell.startAnimating()

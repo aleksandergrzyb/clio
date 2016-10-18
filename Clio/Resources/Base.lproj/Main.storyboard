@@ -49,6 +49,12 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Matters" id="4qd-xt-kz5"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="HcV-0k-JtM">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refreshPulled:" destination="mFx-P2-e2a" eventType="valueChanged" id="e5L-qr-DMo"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgt-Oa-aLc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -103,6 +109,12 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="0bY-ki-1ZH">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refreshPulled:" destination="tv9-Vv-5Uz" eventType="valueChanged" id="UX8-Lb-noe"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vGc-tK-LcS" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="nrB-dp-FzL" userLabel="Exit" sceneMemberID="exit"/>

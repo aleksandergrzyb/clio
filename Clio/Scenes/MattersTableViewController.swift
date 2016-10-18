@@ -10,7 +10,7 @@ class MattersTableViewController: UITableViewController {
     // Public methods/properties
 
     enum State {
-        case loading
+        case loading(Bool)
         case loaded([Matter])
         case empty
         case error(Error)
@@ -19,7 +19,7 @@ class MattersTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         cofigureTableView()
-        loadMatters()
+        loadMatters(fromRefreshControl: false)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -34,16 +34,32 @@ class MattersTableViewController: UITableViewController {
         }
     }
 
-    // MARK: Private methods/properties
+    // MARK: Actions
 
-    fileprivate var state: State = .loading {
-        didSet {
-            tableView.reloadData()
+    @IBAction func refreshPulled(_ sender: UIRefreshControl) {
+        switch state {
+        case .loading(_):
+            return
+        default:
+            loadMatters(fromRefreshControl: true)
         }
     }
 
-    private func loadMatters() {
-        state = .loading
+    // MARK: Private methods/properties
+
+    fileprivate var state: State = .loading(false) {
+        didSet {
+            tableView.reloadData()
+            switch state {
+            case .error(_), .loaded(_):
+                refreshControl?.endRefreshing()
+            default: break
+            }
+        }
+    }
+
+    private func loadMatters(fromRefreshControl: Bool) {
+        state = .loading(fromRefreshControl)
         APIClient().load(resource: Matter.all) { result in
             switch result {
             case .success(let matters):
@@ -72,8 +88,10 @@ extension MattersTableViewController {
         switch state {
         case .loaded(let matters):
             return matters.count
-        case .empty, .error(_), .loading:
+        case .empty, .error(_):
             return 1
+        case .loading(let fromRefreshControl):
+            return fromRefreshControl ? 0 : 1
         }
     }
 
@@ -96,7 +114,10 @@ extension MattersTableViewController {
                                                      for: indexPath) as! InformationTableViewCell
             cell.configureWith(kind: .error(error.localizedDescription))
             return cell
-        case .loading:
+        case .loading(let fromRefreshControl):
+            if fromRefreshControl {
+                return UITableViewCell()
+            }
             let cell = tableView.dequeueReusableCell(withIdentifier: RefreshTableViewCell.cellReuseIdentifier,
                                                      for: indexPath) as! RefreshTableViewCell
             cell.startAnimating()
