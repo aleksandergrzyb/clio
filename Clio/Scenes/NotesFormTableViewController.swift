@@ -16,6 +16,26 @@ class NotesFormTableViewController: UITableViewController {
     }
     var mode: Mode = .edit
 
+    enum State {
+        case editing
+        case loading
+        case loaded([Matter])
+        case error(Error)
+    }
+
+    fileprivate var state: State = .editing {
+        didSet {
+            switch state {
+            case .loading:
+                subjectTextView.resignFirstResponder()
+                detailTextView.resignFirstResponder()
+            default:
+                break
+            }
+        }
+    }
+
+
     override func viewDidLoad() {
         super.viewDidLoad()
         switch mode {
@@ -29,9 +49,19 @@ class NotesFormTableViewController: UITableViewController {
     // MARK: Actions
 
     @IBAction func saveNote(_ sender: UIBarButtonItem) {
+        state = .loading
+        switch mode {
+        case .new:
+            createNote()
+        case .edit: break
+        }
     }
 
     // MARK: Private methods
+
+    fileprivate func createNote() {
+
+    }
 
     fileprivate func setUpPlaceholdersForTextViews() {
         subjectTextView.text = Placeholder.subject
@@ -48,6 +78,13 @@ extension NotesFormTableViewController: UITextViewDelegate {
         if textView.text == Placeholder.subject || textView.text == Placeholder.detail {
             textView.text = ""
             textView.textColor = UIColor.black
+        }
+    }
+
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        switch state {
+        case .loading: return false
+        case .editing, .loaded(_), .error(_): return true
         }
     }
 }
