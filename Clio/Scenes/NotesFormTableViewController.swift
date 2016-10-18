@@ -37,6 +37,9 @@ class NotesFormTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.tableFooterView = UIView()
+
         switch state {
         case .editing(let note):
             if let note = note {

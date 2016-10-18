@@ -16,21 +16,18 @@ class MattersTableViewController: UITableViewController {
 
     fileprivate var state: State = .loading {
         didSet {
-            switch state {
-            case .loaded(_), .empty, .error(_):
-                tableView.reloadData()
-            default:
-                break
-            }
+            tableView.reloadData()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadMatters()
 
+        tableView.tableFooterView = UIView()
         tableView.register(UINib(nibName: InformationTableViewCell.nibName, bundle: nil),
                            forCellReuseIdentifier: InformationTableViewCell.cellReuseIdentifier)
+
+        loadMatters()
     }
 
     private func loadMatters() {
@@ -67,10 +64,8 @@ extension MattersTableViewController {
         switch state {
         case .loaded(let matters):
             return matters.count
-        case .empty, .error(_):
+        case .empty, .error(_), .loading:
             return 1
-        case .loading:
-            return 0
         }
     }
 
@@ -94,7 +89,8 @@ extension MattersTableViewController {
             cell.configureWith(kind: .error(error.localizedDescription))
             return cell
         case .loading:
-            return UITableViewCell()
+            return tableView.dequeueReusableCell(withIdentifier: CellIdentifier.refreshCell,
+                                                 for: indexPath)
         }
     }
 }

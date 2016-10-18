@@ -42,6 +42,21 @@
                                     <segue destination="tv9-Vv-5Uz" kind="show" identifier="ShowNotes" id="1in-9R-DJt"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RefreshCell" rowHeight="60" id="vdV-YC-2pz">
+                                <rect key="frame" x="0.0" y="152" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vdV-YC-2pz" id="D9w-og-6hy">
+                                    <frame key="frameInset" width="375" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="yuY-QY-vea"/>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="yuY-QY-vea" firstAttribute="centerX" secondItem="D9w-og-6hy" secondAttribute="centerX" id="Or9-hR-rZq"/>
+                                        <constraint firstItem="yuY-QY-vea" firstAttribute="centerY" secondItem="D9w-og-6hy" secondAttribute="centerY" id="UBl-2M-aQu"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="mFx-P2-e2a" id="pHv-8i-Yga"/>
@@ -52,7 +67,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fgt-Oa-aLc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="836" y="121.88905547226388"/>
+            <point key="canvasLocation" x="786" y="122"/>
         </scene>
         <!--Notes-->
         <scene sceneID="e5T-Qd-QHM">
@@ -89,6 +104,21 @@
                                 <connections>
                                     <segue destination="sUf-ti-CWB" kind="show" identifier="ShowNotesFormForEdition" id="O3X-27-bjw"/>
                                 </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="RefreshCell" rowHeight="60" id="gwI-Qb-6zG">
+                                <rect key="frame" x="0.0" y="152" width="375" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gwI-Qb-6zG" id="gS4-e4-L2b">
+                                    <frame key="frameInset" width="375" height="59"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PdF-Tv-3Ca"/>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="PdF-Tv-3Ca" firstAttribute="centerX" secondItem="gS4-e4-L2b" secondAttribute="centerX" id="YIB-5A-UVa"/>
+                                        <constraint firstItem="PdF-Tv-3Ca" firstAttribute="centerY" secondItem="gS4-e4-L2b" secondAttribute="centerY" id="rCN-V0-RKw"/>
+                                    </constraints>
+                                </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
                         <connections>

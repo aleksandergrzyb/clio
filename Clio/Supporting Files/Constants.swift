@@ -15,6 +15,7 @@ struct SegueIdentifier {
 struct CellIdentifier {
     static let matterCell = "MatterCell"
     static let noteCell = "NoteCell"
+    static let refreshCell = "RefreshCell"
 }
 
 struct Placeholder {
