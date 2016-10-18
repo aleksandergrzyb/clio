@@ -7,7 +7,9 @@ import UIKit
 
 class NotesTableViewController: UITableViewController {
 
-    var selectedMatter: Matter?
+    // MARK: Public methods/properties
+
+    var matter: Matter?
 
     enum State {
         case loading
@@ -16,24 +18,57 @@ class NotesTableViewController: UITableViewController {
         case error(Error)
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        cofigureTableView()
+        loadNotes()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let notesFormNC = segue.destination as? UINavigationController,
+            let notesFormTableViewController = notesFormNC.topViewController as? NotesFormTableViewController,
+            segue.identifier == SegueIdentifier.showNotesFormForCreation {
+                notesFormTableViewController.matter = matter
+        }
+
+        if let notesFormTableViewController = segue.destination as? NotesFormTableViewController,
+            segue.identifier == SegueIdentifier.showNotesFormForEdition,
+            let selectedIndexPath = tableView.indexPathForSelectedRow {
+                switch state {
+                case .loaded(let notes):
+                    notesFormTableViewController.note = notes[selectedIndexPath.row]
+                default: break
+                }
+                notesFormTableViewController.matter = matter
+        }
+    }
+
+    // MARK: Actions
+
+    @IBAction func unwindFromNoteForm(for segue: UIStoryboardSegue) {
+        if segue.identifier == SegueIdentifier.unwindAfterNoteCreation {
+            loadNotes()
+        }
+    }
+
+    // MARK: Private methods/properties
+
     fileprivate var state: State = .loading {
         didSet {
             tableView.reloadData()
         }
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    private func cofigureTableView() {
         tableView.tableFooterView = UIView()
         tableView.register(UINib(nibName: InformationTableViewCell.nibName, bundle: nil),
                            forCellReuseIdentifier: InformationTableViewCell.cellReuseIdentifier)
-
-        loadNotes()
+        tableView.register(UINib(nibName: RefreshTableViewCell.nibName, bundle: nil),
+                           forCellReuseIdentifier: RefreshTableViewCell.cellReuseIdentifier)
     }
 
     private func loadNotes() {
-        guard let matter = selectedMatter else {
+        guard let matter = matter else {
             return
         }
         state = .loading
@@ -48,31 +83,6 @@ class NotesTableViewController: UITableViewController {
             case .failure(let error):
                 self.state = .error(error)
             }
-        }
-    }
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let notesFormNC = segue.destination as? UINavigationController,
-            let notesFormTableViewController = notesFormNC.topViewController as? NotesFormTableViewController,
-            segue.identifier == SegueIdentifier.showNotesFormForCreation {
-                notesFormTableViewController.matter = selectedMatter
-        }
-
-        if let notesFormTableViewController = segue.destination as? NotesFormTableViewController,
-            segue.identifier == SegueIdentifier.showNotesFormForEdition,
-            let selectedIndexPath = tableView.indexPathForSelectedRow {
-                switch state {
-                case .loaded(let notes):
-                    notesFormTableViewController.note = notes[selectedIndexPath.row]
-                default: break
-                }
-                notesFormTableViewController.matter = selectedMatter
-        }
-    }
-
-    @IBAction func unwindFromNoteForm(for segue: UIStoryboardSegue) {
-        if segue.identifier == SegueIdentifier.unwindAfterNoteCreation {
-            loadNotes()
         }
     }
 }
@@ -106,8 +116,10 @@ extension NotesTableViewController {
             cell.configureWith(kind: .error(error.localizedDescription))
             return cell
         case .loading:
-            return tableView.dequeueReusableCell(withIdentifier: CellIdentifier.refreshCell,
-                                                 for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: RefreshTableViewCell.cellReuseIdentifier,
+                                                     for: indexPath) as! RefreshTableViewCell
+            cell.startAnimating()
+            return cell
         }
     }
 }

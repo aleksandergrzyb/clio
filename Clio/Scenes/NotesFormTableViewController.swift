@@ -7,6 +7,8 @@ import UIKit
 
 class NotesFormTableViewController: UITableViewController {
 
+    // MARK: Public methods/properties
+
     @IBOutlet weak var subjectTextView: UITextView!
     @IBOutlet weak var detailTextView: UITextView!
 
@@ -19,27 +21,6 @@ class NotesFormTableViewController: UITableViewController {
         case loaded(Note)
         case error(Error)
     }
-
-    fileprivate var state: State = .editing {
-        didSet {
-            navigationItem.rightBarButtonItem = rightBarButtonItem(for: state)
-            switch state {
-            case .loading:
-                subjectTextView?.isEditable = false
-                subjectTextView?.isSelectable = false
-                subjectTextView?.resignFirstResponder()
-                detailTextView?.isEditable = false
-                detailTextView?.isSelectable = false
-                detailTextView?.resignFirstResponder()
-            default:
-                subjectTextView?.isEditable = true
-                subjectTextView?.isSelectable = true
-                detailTextView?.isEditable = true
-                detailTextView?.isSelectable = true
-            }
-        }
-    }
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,9 +54,29 @@ class NotesFormTableViewController: UITableViewController {
         }
     }
 
-    // MARK: Private methods
+    // MARK: Private methods/properties
 
-    fileprivate func edit(note: Note) {
+    fileprivate var state: State = .editing {
+        didSet {
+            navigationItem.rightBarButtonItem = rightBarButtonItem(for: state)
+            switch state {
+            case .loading:
+                subjectTextView?.isEditable = false
+                subjectTextView?.isSelectable = false
+                subjectTextView?.resignFirstResponder()
+                detailTextView?.isEditable = false
+                detailTextView?.isSelectable = false
+                detailTextView?.resignFirstResponder()
+            default:
+                subjectTextView?.isEditable = true
+                subjectTextView?.isSelectable = true
+                detailTextView?.isEditable = true
+                detailTextView?.isSelectable = true
+            }
+        }
+    }
+
+    private func edit(note: Note) {
         state = .loading
         APIClient().load(resource: Note.editNote(subject: subjectText(),
                                                  detail: detailText(),
@@ -92,7 +93,7 @@ class NotesFormTableViewController: UITableViewController {
         }
     }
 
-    fileprivate func createNote() {
+    private func createNote() {
         state = .loading
         guard let matter = matter else {
             state = .editing
@@ -113,7 +114,7 @@ class NotesFormTableViewController: UITableViewController {
         }
     }
 
-    fileprivate func setUpPlaceholdersForTextViews() {
+    private func setUpPlaceholdersForTextViews() {
         subjectTextView.text = Placeholder.subject
         subjectTextView.textColor = UIColor.lightGray
         subjectTextView.delegate = self
@@ -122,43 +123,43 @@ class NotesFormTableViewController: UITableViewController {
         detailTextView.delegate = self
     }
 
-    fileprivate func setUpTextViews(with note: Note) {
+    private func setUpTextViews(with note: Note) {
         subjectTextView.text = note.subject
         detailTextView.text = note.detail
     }
 
-    fileprivate func detailText() -> String {
+    private func detailText() -> String {
         if detailTextView.text == Placeholder.detail || detailTextView.text.isEmpty {
             return Note.defaultDetail
         }
         return detailTextView.text
     }
 
-    fileprivate func subjectText() -> String {
+    private func subjectText() -> String {
         if subjectTextView.text == Placeholder.subject || subjectTextView.text.isEmpty {
             return Note.defaultSubject
         }
         return subjectTextView.text
     }
 
-    fileprivate func dateText() -> String {
+    private func dateText() -> String {
         return Note.defaultDate
     }
 
-    fileprivate func presentAlert(for error: Error) {
+    private func presentAlert(for error: Error) {
         let alertController = UIAlertController(title: "Error occured during saving.",
                                                 message: error.localizedDescription,
                                                 preferredStyle: .actionSheet)
-        present(alertController, animated: true) { 
+        present(alertController, animated: true) {
             self.state = .editing
         }
     }
 
-    fileprivate func unwindToNotesList() {
+    private func unwindToNotesList() {
         self.performSegue(withIdentifier: SegueIdentifier.unwindAfterNoteCreation, sender: self)
     }
 
-    fileprivate func rightBarButtonItem(for state: State) -> UIBarButtonItem {
+    private func rightBarButtonItem(for state: State) -> UIBarButtonItem {
         switch state {
         case .loading(_):
             let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)

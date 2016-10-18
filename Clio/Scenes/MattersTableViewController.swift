@@ -7,6 +7,8 @@ import UIKit
 
 class MattersTableViewController: UITableViewController {
 
+    // Public methods/properties
+
     enum State {
         case loading
         case loaded([Matter])
@@ -14,20 +16,30 @@ class MattersTableViewController: UITableViewController {
         case error(Error)
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        cofigureTableView()
+        loadMatters()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == SegueIdentifier.showNotes,
+            let notesTableViewController = segue.destination as? NotesTableViewController,
+            let selectedIndexPath = tableView.indexPathForSelectedRow {
+                switch state {
+                case .loaded(let matters):
+                    notesTableViewController.matter = matters[selectedIndexPath.row]
+                default: break
+                }
+        }
+    }
+
+    // MARK: Private methods/properties
+
     fileprivate var state: State = .loading {
         didSet {
             tableView.reloadData()
         }
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        tableView.tableFooterView = UIView()
-        tableView.register(UINib(nibName: InformationTableViewCell.nibName, bundle: nil),
-                           forCellReuseIdentifier: InformationTableViewCell.cellReuseIdentifier)
-
-        loadMatters()
     }
 
     private func loadMatters() {
@@ -46,16 +58,12 @@ class MattersTableViewController: UITableViewController {
         }
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == SegueIdentifier.showNotes,
-            let notesTableViewController = segue.destination as? NotesTableViewController,
-            let selectedIndexPath = tableView.indexPathForSelectedRow {
-                switch state {
-                case .loaded(let matters):
-                    notesTableViewController.selectedMatter = matters[selectedIndexPath.row]
-                default: break
-                }
-        }
+    private func cofigureTableView() {
+        tableView.tableFooterView = UIView()
+        tableView.register(UINib(nibName: InformationTableViewCell.nibName, bundle: nil),
+                           forCellReuseIdentifier: InformationTableViewCell.cellReuseIdentifier)
+        tableView.register(UINib(nibName: RefreshTableViewCell.nibName, bundle: nil),
+                           forCellReuseIdentifier: RefreshTableViewCell.cellReuseIdentifier)
     }
 }
 
@@ -89,8 +97,10 @@ extension MattersTableViewController {
             cell.configureWith(kind: .error(error.localizedDescription))
             return cell
         case .loading:
-            return tableView.dequeueReusableCell(withIdentifier: CellIdentifier.refreshCell,
-                                                 for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: RefreshTableViewCell.cellReuseIdentifier,
+                                                     for: indexPath) as! RefreshTableViewCell
+            cell.startAnimating()
+            return cell
         }
     }
 }
