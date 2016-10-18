@@ -36,8 +36,9 @@ class NotesFormTableViewController: UITableViewController {
         super.viewDidLoad()
         switch state {
         case .editing(let note):
-            if let _ = note {
+            if let note = note {
                 navigationItem.leftBarButtonItem = nil
+                setUpTextViews(with: note)
             } else {
                 setUpPlaceholdersForTextViews()
             }
@@ -87,6 +88,11 @@ class NotesFormTableViewController: UITableViewController {
         detailTextView.text = Placeholder.detail
         detailTextView.textColor = UIColor.lightGray
         detailTextView.delegate = self
+    }
+
+    fileprivate func setUpTextViews(with note: Note) {
+        subjectTextView.text = note.subject
+        detailTextView.text = note.detail
     }
 
     fileprivate func detailText() -> String {
