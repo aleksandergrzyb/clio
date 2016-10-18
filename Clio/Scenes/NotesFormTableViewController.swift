@@ -63,6 +63,7 @@ class NotesFormTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = rightBarButtonItem(for: state)
             switch state {
             case .loading:
+                navigationItem.leftBarButtonItem?.isEnabled = false
                 subjectTextView?.isEditable = false
                 subjectTextView?.isSelectable = false
                 subjectTextView?.resignFirstResponder()
@@ -70,6 +71,7 @@ class NotesFormTableViewController: UITableViewController {
                 detailTextView?.isSelectable = false
                 detailTextView?.resignFirstResponder()
             default:
+                navigationItem.leftBarButtonItem?.isEnabled = true
                 subjectTextView?.isEditable = true
                 subjectTextView?.isSelectable = true
                 detailTextView?.isEditable = true
