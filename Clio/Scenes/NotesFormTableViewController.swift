@@ -132,7 +132,7 @@ class NotesFormTableViewController: UITableViewController {
 
     private func setUpDateLabel(with note: Note) {
         guard let dateString = note.date else {
-            dateLabel.text = "No date specified for note.."
+            dateLabel.text = "No date specified for note."
             return
         }
 
