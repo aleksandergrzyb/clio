@@ -150,6 +150,7 @@ class NotesFormTableViewController: UITableViewController {
         let alertController = UIAlertController(title: "Error occured during saving.",
                                                 message: error.localizedDescription,
                                                 preferredStyle: .actionSheet)
+        alertController.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
         present(alertController, animated: true) {
             self.state = .editing
         }
