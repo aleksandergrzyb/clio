@@ -23,10 +23,13 @@ class NotesFormTableViewController: UITableViewController {
         didSet {
             switch state {
             case .loading:
-                subjectTextView.resignFirstResponder()
-                detailTextView.resignFirstResponder()
+                subjectTextView?.isEditable = false
+                subjectTextView?.resignFirstResponder()
+                detailTextView?.isEditable = false
+                detailTextView?.resignFirstResponder()
             default:
-                break
+                subjectTextView?.isEditable = true
+                detailTextView?.isEditable = true
             }
         }
     }
@@ -51,7 +54,9 @@ class NotesFormTableViewController: UITableViewController {
     @IBAction func saveNote(_ sender: UIBarButtonItem) {
         switch state {
         case .editing(let note):
-            if note == nil {
+            if let note = note {
+                edit(note: note)
+            } else {
                 createNote()
             }
         default: break
@@ -60,13 +65,28 @@ class NotesFormTableViewController: UITableViewController {
 
     // MARK: Private methods
 
+    fileprivate func edit(note: Note) {
+        state = .loading
+        APIClient().load(resource: Note.editNote(subject: subjectText(),
+                                                 detail: detailText(),
+                                                 date: dateText(),
+                                                 noteId: note.uid)) { result in
+                                                    switch result {
+                                                    case .success(let note):
+                                                        self.performSegue(withIdentifier: SegueIdentifier.unwindAfterNoteCreation, sender: self)
+                                                        self.state = .loaded(note)
+                                                    case .failure(let error):
+                                                        self.state = .error(error)
+                                                    }
+        }
+    }
+
     fileprivate func createNote() {
         state = .loading
         guard let matter = matter else {
             state = .editing(nil)
             return
         }
-
         APIClient().load(resource: Note.createNote(subject: subjectText(),
                                                    detail: detailText(),
                                                    date: dateText(),

@@ -43,6 +43,23 @@ extension Note {
             return .success(note)
         }
     }
+
+    // Edits note with given data for note ID.
+    static func editNote(subject: String,
+                         detail: String,
+                         date: String,
+                         noteId: Int) -> Resource<Note> {
+        let note: JSONDictionary = [ "subject": subject, "detail": detail ]
+        let body: JSONDictionary = [ "note": note ]
+        return Resource(path: "notes/\(noteId)", method: .put(body)) { json -> Result<Note> in
+            guard let root = json as? JSONDictionary,
+                let noteDictionary = root["note"] as? JSONDictionary,
+                let note = Note.init(dictionary: noteDictionary) else {
+                    return .failure(NotesResourceError.mappingFailed)
+            }
+            return .success(note)
+        }
+    }
 }
 
 extension Note {
