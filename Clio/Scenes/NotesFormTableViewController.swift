@@ -190,6 +190,19 @@ class NotesFormTableViewController: UITableViewController {
     }
 }
 
+extension NotesFormTableViewController {
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        switch state {
+        case .editing:
+            if let _ = note {
+                return 3
+            }
+        default: break
+        }
+        return 2
+    }
+}
+
 extension NotesFormTableViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == Placeholder.subject || textView.text == Placeholder.detail {
