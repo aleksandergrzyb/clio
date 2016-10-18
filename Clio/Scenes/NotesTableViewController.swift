@@ -55,7 +55,6 @@ class NotesTableViewController: UITableViewController {
         if let notesFormNC = segue.destination as? UINavigationController,
             let notesFormTableViewController = notesFormNC.topViewController as? NotesFormTableViewController,
             segue.identifier == SegueIdentifier.showNotesFormForCreation {
-                notesFormTableViewController.state = .editing(nil)
                 notesFormTableViewController.matter = selectedMatter
         }
 
@@ -64,7 +63,7 @@ class NotesTableViewController: UITableViewController {
             let selectedIndexPath = tableView.indexPathForSelectedRow {
                 switch state {
                 case .loaded(let notes):
-                    notesFormTableViewController.state = .editing(notes[selectedIndexPath.row])
+                    notesFormTableViewController.note = notes[selectedIndexPath.row]
                 default: break
                 }
                 notesFormTableViewController.matter = selectedMatter

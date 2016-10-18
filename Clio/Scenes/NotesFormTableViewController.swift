@@ -11,25 +11,31 @@ class NotesFormTableViewController: UITableViewController {
     @IBOutlet weak var detailTextView: UITextView!
 
     var matter: Matter?
+    var note: Note?
 
     enum State {
-        case editing(Note?)
+        case editing
         case loading
         case loaded(Note)
         case error(Error)
     }
 
-    var state: State = .editing(nil) {
+    fileprivate var state: State = .editing {
         didSet {
+            navigationItem.rightBarButtonItem = rightBarButtonItem(for: state)
             switch state {
             case .loading:
                 subjectTextView?.isEditable = false
+                subjectTextView?.isSelectable = false
                 subjectTextView?.resignFirstResponder()
                 detailTextView?.isEditable = false
+                detailTextView?.isSelectable = false
                 detailTextView?.resignFirstResponder()
             default:
                 subjectTextView?.isEditable = true
+                subjectTextView?.isSelectable = true
                 detailTextView?.isEditable = true
+                detailTextView?.isSelectable = true
             }
         }
     }
@@ -40,8 +46,9 @@ class NotesFormTableViewController: UITableViewController {
 
         tableView.tableFooterView = UIView()
 
+        state = .editing
         switch state {
-        case .editing(let note):
+        case .editing:
             if let note = note {
                 navigationItem.leftBarButtonItem = nil
                 setUpTextViews(with: note)
@@ -54,9 +61,9 @@ class NotesFormTableViewController: UITableViewController {
 
     // MARK: Actions
 
-    @IBAction func saveNote(_ sender: UIBarButtonItem) {
+    func saveNote(_ sender: UIBarButtonItem) {
         switch state {
-        case .editing(let note):
+        case .editing:
             if let note = note {
                 edit(note: note)
             } else {
@@ -76,10 +83,11 @@ class NotesFormTableViewController: UITableViewController {
                                                  noteId: note.uid)) { result in
                                                     switch result {
                                                     case .success(let note):
-                                                        self.performSegue(withIdentifier: SegueIdentifier.unwindAfterNoteCreation, sender: self)
                                                         self.state = .loaded(note)
+                                                        self.unwindToNotesList()
                                                     case .failure(let error):
                                                         self.state = .error(error)
+                                                        self.presentAlert(for: error)
                                                     }
         }
     }
@@ -87,7 +95,7 @@ class NotesFormTableViewController: UITableViewController {
     fileprivate func createNote() {
         state = .loading
         guard let matter = matter else {
-            state = .editing(nil)
+            state = .editing
             return
         }
         APIClient().load(resource: Note.createNote(subject: subjectText(),
@@ -97,9 +105,10 @@ class NotesFormTableViewController: UITableViewController {
             switch result {
             case .success(let note):
                 self.state = .loaded(note)
-                self.performSegue(withIdentifier: SegueIdentifier.unwindAfterNoteCreation, sender: self)
+                self.unwindToNotesList()
             case .failure(let error):
                 self.state = .error(error)
+                self.presentAlert(for: error)
             }
         }
     }
@@ -135,6 +144,30 @@ class NotesFormTableViewController: UITableViewController {
     fileprivate func dateText() -> String {
         return Note.defaultDate
     }
+
+    fileprivate func presentAlert(for error: Error) {
+        let alertController = UIAlertController(title: "Error occured during saving.",
+                                                message: error.localizedDescription,
+                                                preferredStyle: .actionSheet)
+        present(alertController, animated: true) { 
+            self.state = .editing
+        }
+    }
+
+    fileprivate func unwindToNotesList() {
+        self.performSegue(withIdentifier: SegueIdentifier.unwindAfterNoteCreation, sender: self)
+    }
+
+    fileprivate func rightBarButtonItem(for state: State) -> UIBarButtonItem {
+        switch state {
+        case .loading(_):
+            let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            activityIndicator.startAnimating()
+            return UIBarButtonItem(customView: activityIndicator)
+        case .editing(_), .loaded(_), .error(_):
+            return UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveNote(_:)))
+        }
+    }
 }
 
 extension NotesFormTableViewController: UITextViewDelegate {
@@ -147,8 +180,8 @@ extension NotesFormTableViewController: UITextViewDelegate {
 
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         switch state {
-        case .loading: return false
-        case .editing, .loaded(_), .error(_): return true
+        case .loading, .error(_): return false
+        case .editing, .loaded(_): return true
         }
     }
 }
