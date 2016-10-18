@@ -86,6 +86,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="sUf-ti-CWB" kind="show" id="O3X-27-bjw"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -102,13 +105,14 @@
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vGc-tK-LcS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="nrB-dp-FzL" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1636" y="122"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Notes Form Table View Controller-->
         <scene sceneID="0vv-1S-NGa">
             <objects>
-                <tableViewController id="sUf-ti-CWB" sceneMemberID="viewController">
+                <tableViewController id="sUf-ti-CWB" customClass="NotesFormTableViewController" customModule="Clio" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="5NQ-oe-Zj3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -120,7 +124,7 @@
                                         <rect key="frame" x="0.0" y="92" width="375" height="100"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="z3K-3e-Rgu" id="sGb-fT-JeG">
-                                            <frame key="frameInset" width="375" height="99"/>
+                                            <frame key="frameInset" width="375" height="99.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Subject details" translatesAutoresizingMaskIntoConstraints="NO" id="MlZ-DD-A1e">
@@ -145,7 +149,7 @@
                                         <rect key="frame" x="0.0" y="220" width="375" height="150"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bex-6B-kps" id="MtL-UU-s3o">
-                                            <frame key="frameInset" width="375" height="149"/>
+                                            <frame key="frameInset" width="375" height="149.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Subject details" translatesAutoresizingMaskIntoConstraints="NO" id="S7L-dt-dyJ">
@@ -170,7 +174,7 @@
                                         <rect key="frame" x="0.0" y="398" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="beW-iD-2p3" id="5NA-Zj-Ajd">
-                                            <frame key="frameInset" width="375" height="59"/>
+                                            <frame key="frameInset" width="375" height="59.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday, Oct 23, 2016" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W2t-aJ-7He">
@@ -195,6 +199,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="HK2-Ne-8a0">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="3dM-A0-O3r">
+                            <connections>
+                                <segue destination="nrB-dp-FzL" kind="unwind" unwindAction="unwindFromNoteFormFor:" id="eEU-ov-Y00"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="wtT-zg-8ht"/>
                     </navigationItem>
                 </tableViewController>
@@ -236,7 +245,10 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pJ3-zY-OMt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2508" y="122"/>
+            <point key="canvasLocation" x="2508" y="569"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="O3X-27-bjw"/>
+    </inferredMetricsTieBreakers>
 </document>
