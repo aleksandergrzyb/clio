@@ -7,17 +7,6 @@ import Foundation
 
 typealias JSONDictionary = [String: Any]
 
-/// Encapsulates information about HTTP method.
-///
-/// - get:  Get HTTP method.
-/// - post: Post HTTP method with request body.
-/// - put:  Put HTTP method with request body.
-enum HttpMethod<Body> {
-    case get
-    case post(Body)
-    case put(Body)
-}
-
 /// Represents possible errors that could occur when using `APIClient` class.
 ///
 /// - jsonParsingFailed:    JSON parsing failed.
@@ -48,6 +37,17 @@ enum Result<A> {
     case failure(Error)
 }
 
+/// Encapsulates information about HTTP method.
+///
+/// - get:  Get HTTP method.
+/// - post: Post HTTP method with request body.
+/// - put:  Put HTTP method with request body.
+enum HttpMethod<Body> {
+    case get
+    case post(Body)
+    case put(Body)
+}
+
 extension HttpMethod {
 
     /// The HTTP method string for `URLRequest` `httpMethod` property.
@@ -59,9 +59,9 @@ extension HttpMethod {
         }
     }
 
-    /// Transforms `Body` of `.post` and `.put` methods using `f` function.
+    /// Transforms `Body` of `.post` and `.put` methods using `transform` function.
     ///
-    /// - parameter f: Function that transforms body from one type to another
+    /// - parameter transform: Function that transforms body from one type to another
     /// (for `URLRequest` from dictionary to `Data`).
     ///
     /// - returns: Returns transformed `HttpMethod`.
@@ -102,7 +102,7 @@ extension Resource {
     ///
     /// - returns: Resource with initialized configuration.
     init(path: String,
-         method: HttpMethod<AnyObject> = .get,
+         method: HttpMethod<Any> = .get,
          params: [String: String] = [:],
          parseJSON: @escaping (Any) -> Result<A>) {
         self.path = path
